@@ -6,7 +6,7 @@ from flask import request
 from flask import abort
 from flask import Response
 
-from rss_iv_converter.helpers import get_domain, validate_content_type
+from helpers import get_domain, validate_content_type
 from lxml import etree
 from lxml.html import fromstring
 from urllib.parse import quote_plus
