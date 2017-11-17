@@ -1,0 +1,6 @@
+{
+  "name": "RSS to instant view converter",
+  "description": "Replaces links inside rss feed with instant view format",
+  "repository": "https://github.com/mercuree/zen-to-rss",
+  "keywords": ["python", "rss", "telegram", "instant view"]
+}

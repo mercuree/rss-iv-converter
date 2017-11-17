@@ -1,0 +1,5 @@
+Flask
+gunicorn
+lxml==4.1.1
+requests
+requests-cache
