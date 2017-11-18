@@ -5,6 +5,7 @@ import requests_cache
 from flask import request
 from flask import abort
 from flask import Response
+from flask import render_template
 
 from rss_iv_converter.helpers import get_domain, validate_content_type
 from lxml import etree
@@ -24,7 +25,7 @@ lxml_parser = etree.XMLParser(
 
 @app.route('/')
 def main_page():
-    return "Just an empty page :\ "
+    return render_template('index.html')
 
 
 @app.route('/rss', methods=['GET'])
