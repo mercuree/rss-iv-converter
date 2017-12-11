@@ -13,6 +13,7 @@ from lxml.html import fromstring
 from urllib.parse import quote_plus
 import re
 import html
+import idna
 
 requests_cache.install_cache(expire_after=300)
 
@@ -64,6 +65,15 @@ def get_rss():
                 description.text = description.text.strip()
 
             link.text = link.text.strip()
+
+            # convert idna domains
+            link_domain = get_domain(link.text)
+            try:
+                idna_domain = idna.encode(link_domain).decode('utf-8')
+                if idna_domain != link_domain:
+                    link.text = link.text.replace(link_domain, idna_domain, 1)
+            except:
+                pass
 
             if author is not None:
                 author.text = link.text
