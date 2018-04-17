@@ -6,6 +6,7 @@ from flask import request
 from flask import abort
 from flask import Response
 from flask import render_template
+from fake_useragent import UserAgent
 
 from rss_iv_converter.helpers import get_domain, validate_content_type
 from lxml import etree
@@ -16,6 +17,8 @@ import html
 import idna
 
 requests_cache.install_cache(expire_after=300)
+
+ua = UserAgent()
 
 app = Flask(__name__)
 
@@ -33,6 +36,7 @@ def main_page():
 def get_rss():
     url = request.args.get('url')
     rhash = request.args.get('tg_rhash')
+    rss_request_headers = {'User-Agent': ua.chrome} if request.args.get('spoof_ua') is not None else None
     if not url or not rhash:
         return abort(400)
 
@@ -42,7 +46,7 @@ def get_rss():
 
     domain = get_domain(url)
 
-    resp = requests.get(url)
+    resp = requests.get(url, headers=rss_request_headers)
 
     if not validate_content_type(resp.headers.get('Content-Type')):
         return "RSS TYPE IS NOT VALID"
