@@ -61,6 +61,8 @@ def get_rss():
     items = doc.xpath('.//item')
     for item in items:
         link = item.find('link')
+        guid = item.find('guid')
+        title = item.find('title')
         description = item.find('description')
         author = item.find('author')
         if link is not None and link.text.startswith('http://t.me/iv') is False:
@@ -79,13 +81,16 @@ def get_rss():
             except:
                 pass
 
+            guid_text = guid is not None and guid.text or ''
             if author is not None:
-                author.text = link.text
+                author.text = guid_text
             else:
                 author = etree.Element('author')
-                author.text = link.text
+                author.text = guid_text
                 item.append(author)
 
+            if title is not None and title.text:
+                title.text = title.text.capitalize()
             link.text = "http://t.me/iv?url={url}&rhash={rhash}".format(
                 url=quote_plus(link.text),
                 rhash=rhash
