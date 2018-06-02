@@ -36,6 +36,7 @@ def main_page():
 def get_rss():
     url = request.args.get('url')
     rhash = request.args.get('tg_rhash')
+    ignore_type_check = request.args.get('ignoreTypeCheck')
     rss_request_headers = {'User-Agent': ua.chrome} if request.args.get('spoof_ua') is not None else None
     if not url or not rhash:
         return abort(400)
@@ -48,7 +49,7 @@ def get_rss():
 
     resp = requests.get(url, headers=rss_request_headers)
 
-    if not validate_content_type(resp.headers.get('Content-Type')):
+    if not validate_content_type(resp.headers.get('Content-Type')) and not ignore_type_check:
         return "RSS TYPE IS NOT VALID"
 
     doc = etree.XML(resp.content, lxml_parser)
