@@ -12,7 +12,9 @@
     <label>rss feed url: </label>
     <input id="url" type="text" style="width:350px;"/><br/><br/>
     <label>rhash: </label>
-    <input id="rhash" type="text"/>
+    <input id="rhash" type="text"/><br/><br/>
+    <label>Spoof User Agent:</label>
+    <input id="spoof_ua" type="checkbox"/>
     <h4>Output: </h4>
     <input id="output" type="text"  style="width: 500px;"/>
 </form>
@@ -21,6 +23,8 @@
         var output = document.getElementById('output');
         var url = document.getElementById('url');
         var rhash = document.getElementById('rhash');
+        var spoofUA = document.getElementById('spoof_ua');
+
         document.body.onkeyup = function(ev){
             if(ev.target.id === 'rhash' || ev.target.id === "url"){
                 output.value = location.origin +'/rss?url=' + encodeURIComponent(url.value) + '&tg_rhash=' + rhash.value;
@@ -28,6 +32,9 @@
         };
         output.onclick = function(){
             this.select();
+        };
+        spoofUA.onclick = function(){
+            output.value = this.checked?output.value + '&spoof_ua=1': output.value.replace('&spoof_ua=1', '');
         };
     }());
 </script>
