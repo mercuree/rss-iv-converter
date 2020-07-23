@@ -25,17 +25,19 @@
         var rhash = document.getElementById('rhash');
         var spoofUA = document.getElementById('spoof_ua');
 
+        var spoof_handler = function(){
+            output.value = spoofUA.checked?output.value + '&spoof_ua=1': output.value.replace('&spoof_ua=1', '');
+        };
         document.body.onkeyup = function(ev){
             if(ev.target.id === 'rhash' || ev.target.id === "url"){
                 output.value = location.origin +'/rss?url=' + encodeURIComponent(url.value) + '&tg_rhash=' + rhash.value;
+                spoof_handler();
             }
         };
         output.onclick = function(){
             this.select();
         };
-        spoofUA.onclick = function(){
-            output.value = this.checked?output.value + '&spoof_ua=1': output.value.replace('&spoof_ua=1', '');
-        };
+        spoofUA.onclick = spoof_handler;
     }());
 </script>
 </body>
